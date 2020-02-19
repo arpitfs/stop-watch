@@ -1,0 +1,56 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">    
+
+    <title>Document</title>
+</head>
+<body class="body">
+<section > 
+    <div class="text-center">
+        <h1 class="display-4">Welcome</h1>
+        <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    </div>
+    <div>
+        <button id ="start-button">Start</button>
+        <button id ="stop-button">Stop</button>
+    </div>               
+    <div>
+        <span id="display-span"></span>
+    </div>   
+</section>    
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+<script>
+    var startButton = document.getElementById('start-button');
+    var stopButton = document.getElementById('stop-button');
+    var valueContent = document.getElementById('display-content');
+    var meesage;
+    console.log(startButton);
+    console.log(stopButton);
+    startButton.addEventListener('click', function(){
+        message = "Message from JS by ajax";
+        console.log(message);
+    });
+
+    $(document).ready(function() {
+        $('#stop-button').click(function() {
+            $.ajax({
+                type: 'POST',
+                url: 'http://localhost:44319/StopWatch/SendToASB/{message}',
+                data: { "value": message },
+                contentType: 'application/json',
+                success: function(data) {
+                    valueContent.innerHTML = message;
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+﻿
+@{
+    ViewData["Title"] = "Stopwatch";
+}
+
+<h2>Bang On !</h2>
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
+    <link href="~/css/site.css" rel="stylesheet" />
+    <title>Document</title>
+</head>
+<body class="body">
+    <section>
+        <div class="text-center">
+            <h1 class="display-4">Stopwatch</h1>
+            <div>
+                <button type="button">Start</button>
+            </div>
+        </div>
+
+        <div>
+            <button id="start-button">Start</button>
+            <button id="stop-button">Stop</button>
+        </div>
+        <div>
+            <span id="display-span"></span>
+            <span style="text-decoration-color: red" id="display-error"></span>
+        </div>
+    </section>
+    <script>
+        var startButton = document.getElementById('start-button');
+        var stopButton = document.getElementById('stop-button');
+        var valueContent = document.getElementById('display-span');
+        var message;
+        console.log(startButton);
+        console.log(stopButton);
+        startButton.addEventListener('click', function () {
+            message = "Message from JS by ajax";
+            console.log(message);
+        });
+
+        var displayErrorMessage = function(data) {
+            document.getElementById('display-error').innerHTML = data;
+        };
+
+        $(document).ready(function () {
+            $('#stop-button').click(function () {
+                $.ajax({
+                    type: 'POST',
+                    url: 'StopWatch/SendToASB?inputData=' + message,
+                    data: { inputData: "Message from JS by ajax" },
+                    contentType: 'application/json',
+                    success: function (data) {
+                        valueContent.innerHTML = message;
+                    },
+                    error: function(errorMessage) {
+                        displayErrorMessage(errorMessage.statusText);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
