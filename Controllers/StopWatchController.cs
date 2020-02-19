@@ -18,8 +18,8 @@ namespace StopWatch.Controllers
         public void SendToASB(string inputData)
         {
             var queueClient = new QueueClient(serviceBusConnectionString, queueName);
-            var messageBody = $"Message From Web";
-            var message = new Message(Encoding.UTF8.GetBytes(inputData));
+            var messageBody = $"Total Time : " + inputData;
+            var message = new Message(Encoding.UTF8.GetBytes(messageBody));
             queueClient.SendAsync(message);
         }
     }

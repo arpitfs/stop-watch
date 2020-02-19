@@ -1,11 +1,8 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Stopwatch";
 }
 
 <h2>Bang On !</h2>
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -21,50 +18,69 @@
     <section>
         <div class="text-center">
             <h1 class="display-4">Stopwatch</h1>
-            <div>
-                <button type="button">Start</button>
-            </div>
         </div>
-
-        <div>
+        <div class="text-center">
             <button id="start-button">Start</button>
             <button id="stop-button">Stop</button>
         </div>
-        <div>
+        <div class="text-center">
             <span id="display-span"></span>
-            <span style="text-decoration-color: red" id="display-error"></span>
+        </div>
+        <div class="text-center">
+            <span id="display-final"></span>
         </div>
     </section>
     <script>
+        var message;
+        var seconds = 0;
+
         var startButton = document.getElementById('start-button');
         var stopButton = document.getElementById('stop-button');
         var valueContent = document.getElementById('display-span');
-        var message;
-        console.log(startButton);
-        console.log(stopButton);
+        var finalMessage = document.getElementById('display-final');
+
+        stopButton.style.display = 'none';
+
         startButton.addEventListener('click', function () {
+            startButton.style.display = 'none';
+            stopButton.style.display = 'inline';
+            stopButton.classList.add("text-center");
+            setInterval(setTime, 1000);
+            console.log(seconds);
             message = "Message from JS by ajax";
-            console.log(message);
+
         });
 
-        var displayErrorMessage = function(data) {
+        function setTime() {
+            ++seconds;
+            valueContent.innerText = "You have been here for " + seconds + " seconds.";
+        }
+        
+        var displayErrorMessage = function (data) {
             document.getElementById('display-error').innerHTML = data;
         };
 
         $(document).ready(function () {
             $('#stop-button').click(function () {
+                stopButton.style.display = 'none';
+                startButton.style.display = 'inline';
+                var totalSeconds = seconds;
+                finalMessage.innerHTML = "You wasted your " + seconds + " seconds.";
+                seconds = 0;
+                console.log(totalSeconds);
+                valueContent.style.display = 'none';
                 $.ajax({
                     type: 'POST',
-                    url: 'StopWatch/SendToASB?inputData=' + message,
+                    url: 'StopWatch/SendToASB?inputData=' + totalSeconds,
                     data: { inputData: "Message from JS by ajax" },
                     contentType: 'application/json',
-                    success: function (data) {
+                    success: function(data) {
                         valueContent.innerHTML = message;
                     },
                     error: function(errorMessage) {
                         displayErrorMessage(errorMessage.statusText);
                     }
-                });
+                 });
             });
         });
     </script>
