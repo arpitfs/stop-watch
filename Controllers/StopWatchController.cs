@@ -8,8 +8,8 @@ namespace StopWatch.Controllers
 {
     public class StopWatchController : Controller
     {
-        private string serviceBusConnectionString = "Endpoint=sb://stopwatchmessanger.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=9ZnB0nAufUN6hIcFvWLIcT6gesobxSYTfTohEkmz/ZU=";
-        private string queueName = "stopwatchqueue";
+        private string serviceBusConnectionString = "CONNECTION_STRING";
+        private string queueName = "QUEUE_NAME";
         public IActionResult Duration()
         {
             return View();
